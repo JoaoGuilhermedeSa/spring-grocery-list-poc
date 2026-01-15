@@ -1,8 +1,7 @@
 package com.example.grocery.controller;
 
 import com.example.grocery.model.GroceryList;
-import com.example.grocery.model.GroceryListStatus;
-import com.example.grocery.repository.GroceryListRepository;
+import com.example.grocery.service.GroceryListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,21 +16,20 @@ import java.util.List;
 @RequestMapping("/lists")
 public class GroceryListController {
 
-    private final GroceryListRepository groceryListRepository;
+    private final GroceryListService groceryListService;
 
-    public GroceryListController(GroceryListRepository groceryListRepository) {
-        this.groceryListRepository = groceryListRepository;
+    public GroceryListController(GroceryListService groceryListService) {
+        this.groceryListService = groceryListService;
     }
 
     @PostMapping
     public ResponseEntity<GroceryList> createList(@RequestBody GroceryList groceryList) {
-        groceryList.setStatus(GroceryListStatus.PENDING);
-        GroceryList savedList = groceryListRepository.save(groceryList);
+        GroceryList savedList = groceryListService.createList(groceryList);
         return new ResponseEntity<>(savedList, HttpStatus.CREATED);
     }
 
     @GetMapping
     public List<GroceryList> getAllLists() {
-        return groceryListRepository.findAll();
+        return groceryListService.getAllLists();
     }
 }

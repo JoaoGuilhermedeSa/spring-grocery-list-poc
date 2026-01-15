@@ -1,6 +1,7 @@
 package com.example.grocery.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +20,9 @@ public class GroceryListItem {
 
     private String name;
 
+    @Embedded
+    private GroceryListItemQuantity quantity;
+
     @Enumerated(EnumType.STRING)
     private GroceryListStatus status;
 
@@ -30,10 +34,10 @@ public class GroceryListItem {
     public GroceryListItem() {
     }
 
-    public GroceryListItem(String name, GroceryListStatus status, GroceryList groceryList) {
+    public GroceryListItem(String name, GroceryListItemQuantity quantity, GroceryListStatus status) {
         this.name = name;
+        this.quantity = quantity;
         this.status = status;
-        this.groceryList = groceryList;
     }
 
     public Long getId() {
@@ -67,4 +71,8 @@ public class GroceryListItem {
     public void setGroceryList(GroceryList groceryList) {
         this.groceryList = groceryList;
     }
+
+    public GroceryListItemQuantity getQuantity() { return quantity; }
+
+    public void setQuantity(GroceryListItemQuantity quantity) { this.quantity = quantity; }
 }
